@@ -12,7 +12,7 @@ class AnimalController extends Controller
      */
     public function index()
     {
-        //
+        return Animal::all();
     }
 
     /**
@@ -21,6 +21,16 @@ class AnimalController extends Controller
     public function store(Request $request)
     {
         //
+        $request->validate([
+            'nombre'=>'required|string',
+            'longevidad' => 'required|integer',
+            'descripcion' => 'required|string',
+            'urlimg' => 'required|string',
+            'especie' => 'required|string',
+        ]);
+        $animal = Animal::create($request->all());
+
+        return response()->json($animal, 201);
     }
 
     /**

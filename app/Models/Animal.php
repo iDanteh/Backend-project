@@ -8,4 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Animal extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'nombre',
+        'longevidad',
+        'descripcion',
+        'urlimg',
+        'especie',
+    ];
 }
