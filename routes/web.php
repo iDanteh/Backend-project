@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AnimalController;
+use App\Models\Animal;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +18,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/api/findAnimalName/{name}', [AnimalController::class, 'findAnimalName']);
+Route::post('/api/uploadImage', [AnimalController::class, 'uploadImage']);
+Route::get('/api/showAllImages', [AnimalController::class,'showAllImages']);
+
+Route::resource('Animal', AnimalController::class);
