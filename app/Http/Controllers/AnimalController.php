@@ -86,6 +86,13 @@ class AnimalController extends Controller
 
         return response()->json($imageData, 200);
     }
+
+    public function actualizar(Animal $animal, Request $request)
+    {
+        $animal->update($request->all());
+        return response()->json($animal, 200);
+
+    }
     /**
      * Display the specified resource.
      */
@@ -100,6 +107,8 @@ class AnimalController extends Controller
     public function update(Request $request, Animal $animal)
     {
         //
+        $animal->update($request->all());
+        return response()->json($animal, 200);
     }
 
     /**
@@ -108,5 +117,17 @@ class AnimalController extends Controller
     public function destroy(Animal $animal)
     {
         //
+        $animal->delete();
+        return response()->json($animal, 200);
+    }
+
+    public function eliminar($id_animal)
+    {
+        $animal = Animal::find($id_animal);
+        if (!$animal) {
+            return response()->json(["error"=> "Animal no encontrado"],404);
+        }
+        $animal->delete();
+        return response()->json(["message"=> "Animal eliminado"],200);
     }
 }

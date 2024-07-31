@@ -19,8 +19,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/api/findAnimalName/{name}', [AnimalController::class, 'findAnimalName']);
-Route::post('/api/uploadImage', [AnimalController::class, 'uploadImage']);
-Route::get('/api/showAllImages', [AnimalController::class,'showAllImages']);
-
-Route::resource('Animal', AnimalController::class);
+Route::prefix('animal')->group(function () {
+    Route::get('/findAnimalName/{name}', [AnimalController::class, 'findAnimalName']);
+    Route::post('/uploadImage', [AnimalController::class, 'uploadImage']);
+    Route::get('/showAllImages', [AnimalController::class, 'showAllImages']);
+    Route::put('/actualizar/{animal}', [AnimalController::class, 'actualizar']);
+    Route::delete('/eliminar/{animal}', [AnimalController::class, 'eliminar']);
+});
+// Route::resource('Animal', AnimalController::class);
