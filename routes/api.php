@@ -15,6 +15,11 @@ use App\Http\Controllers\AnimalController;
 |
 */
 
+Route::get('/allAnimals', [AnimalController::class, 'index']);
+Route::put('/actualizar/{animal}', [AnimalController::class, 'actualizar']);
+Route::delete('/eliminar/{animal}', [AnimalController::class, 'eliminar']);
+Route::post('/agregar/{animal}', [AnimalController::class, 'store']);
+
 Route::apiResource('animals', AnimalController::class);
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();
