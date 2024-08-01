@@ -35,12 +35,14 @@ class UserController extends Controller
             'nombre' => 'required|string',
             'correo' => 'required|string',
             'contraseña' => 'required|string',
+            'urlimg' => 'required|string',
         ]);
 
         $user = User::create([
             'nombre' => $request->input('nombre'),
             'correo' => $request->input('correo'),
             'contraseña' => $request->input('contraseña'), // Almacenar en texto plano
+            'urlimg' => $request->input('urlimg'),
         ]);
 
         return response()->json($user, 201);
@@ -52,20 +54,20 @@ class UserController extends Controller
     }
 
     public function login(Request $request)
-{
-    $validatedData = $request->validate([
-        'correo' => 'required|string',
-        'contraseña' => 'required|string',
-    ]);
+    {
+        $validatedData = $request->validate([
+            'correo' => 'required|string',
+            'contraseña' => 'required|string',
+        ]);
 
-    $user = User::where('correo', $validatedData['correo'])->first();
+        $user = User::where('correo', $validatedData['correo'])->first();
 
-    if ($user && $user->contraseña === $validatedData['contraseña']) {
-        return response()->json($user);
-    } else {
-        return response()->json(['message' => 'Credenciales inválidas'], 401);
+        if ($user && $user->contraseña === $validatedData['contraseña']) {
+            return response()->json($user);
+        } else {
+            return response()->json(['message' => 'Credenciales inválidas'], 401);
+        }
     }
-}
 
 
     /**

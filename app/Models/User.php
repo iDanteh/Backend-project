@@ -12,7 +12,8 @@ class User extends Model
     protected $fillable = [
         'nombre',
         'correo',
-        'contraseña'
+        'contraseña',
+        'urlimg',
     ];
 
     public function getAuthPassword()

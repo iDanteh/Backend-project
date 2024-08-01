@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('nombre');
             $table->string('correo');
             $table->string('contraseña');
+            $table->string('urlimg');
             $table->timestamps();
         });
     }
