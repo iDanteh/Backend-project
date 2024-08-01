@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AnimalController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,6 +20,11 @@ Route::get('/allAnimals', [AnimalController::class, 'index']);
 Route::put('/actualizar/{animal}', [AnimalController::class, 'actualizar']);
 Route::delete('/eliminar/{animal}', [AnimalController::class, 'eliminar']);
 Route::post('/agregar/{animal}', [AnimalController::class, 'store']);
+
+Route::get('/allUsers', [UserController::class, 'index']);
+Route::get('/user/{usuario}', [UserController::class, 'show']);
+Route::post('/newUser', [UserController::class, 'store']);
+Route::get('/login', [UserController::class, 'login']);
 
 Route::apiResource('animals', AnimalController::class);
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
