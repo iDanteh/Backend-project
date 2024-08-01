@@ -19,12 +19,18 @@ use App\Http\Controllers\UserController;
 Route::get('/allAnimals', [AnimalController::class, 'index']);
 Route::put('/actualizar/{animal}', [AnimalController::class, 'actualizar']);
 Route::delete('/eliminar/{animal}', [AnimalController::class, 'eliminar']);
-Route::post('/agregar/{animal}', [AnimalController::class, 'store']);
+Route::post('/agregar', [AnimalController::class, 'agregar']);
+Route::get('/findAnimalName/{name}', [AnimalController::class, 'findAnimalName']);
+Route::post('/uploadImage', [AnimalController::class, 'uploadImage']);
+Route::get('/showAllImages', [AnimalController::class, 'showAllImages']);
+
 
 Route::get('/allUsers', [UserController::class, 'index']);
 Route::get('/user/{usuario}', [UserController::class, 'show']);
 Route::post('/newUser', [UserController::class, 'store']);
-Route::get('/login', [UserController::class, 'login']);
+Route::post('/login', [UserController::class, 'login']);
+
+
 
 Route::apiResource('animals', AnimalController::class);
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

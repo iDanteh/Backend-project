@@ -31,7 +31,6 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
         $request->validate([
             'nombre' => 'required|string',
             'correo' => 'required|string',
@@ -41,35 +40,33 @@ class UserController extends Controller
         $user = User::create([
             'nombre' => $request->input('nombre'),
             'correo' => $request->input('correo'),
-            'contraseña' => Hash::make($request->input('contraseña')),
+            'contraseña' => $request->input('contraseña'), // Almacenar en texto plano
         ]);
 
         return response()->json($user, 201);
     }
+
     public function show(User $usuario)
     {
         return $usuario;
     }
 
     public function login(Request $request)
-    {
-        // Validar los datos del request
-        $validatedData = $request->validate([
-            'id' => 'required|integer',
-            'nombre' => 'required|string',
-            'contraseña' => 'required|string',
-        ]);
+{
+    $validatedData = $request->validate([
+        'correo' => 'required|string',
+        'contraseña' => 'required|string',
+    ]);
 
-        // Buscar el usuario por ID
-        $user = User::find($validatedData['id']);
+    $user = User::where('correo', $validatedData['correo'])->first();
 
-        // Verificar si el usuario existe y si el nombre y la contraseña son correctos
-        if ($user && $user->nombre === $validatedData['nombre'] && Hash::check($validatedData['contraseña'], $user->contraseña)) {
-            return response()->json($user);
-        } else {
-            return response()->json(['message' => 'Credenciales inválidas'], 401);
-        }
+    if ($user && $user->contraseña === $validatedData['contraseña']) {
+        return response()->json($user);
+    } else {
+        return response()->json(['message' => 'Credenciales inválidas'], 401);
     }
+}
+
 
     /**
      * Show the form for editing the specified resource.

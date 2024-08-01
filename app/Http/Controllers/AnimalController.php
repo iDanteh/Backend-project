@@ -24,7 +24,7 @@ class AnimalController extends Controller
     {
         //
         $request->validate([
-            'nombre'=>'required|string',
+            'nombre' => 'required|string',
             'longevidad' => 'required|integer',
             'descripcion' => 'required|string',
             'urlimg' => 'required|string',
@@ -35,36 +35,39 @@ class AnimalController extends Controller
         return response()->json($animal, 201);
     }
 
-    public function findAnimalName($name){
-        $animal = Animal::where('nombre', $name)->first();
-        if (!$animal) {
-            return response()->json(["error"=> "Animal no encontrado"],404);
-        }
-        return response()->json($animal,200);
+    public function agregar(Request $request)
+    {
+        $animal = Animal::create($request->all());
+        return response()->json($animal, 201);
     }
 
-    public function uploadImage(Request $request, $image)
+    public function findAnimalName($name)
+    {
+        $animal = Animal::where('nombre', $name)->first();
+        if (!$animal) {
+            return response()->json(["error" => "Animal no encontrado"], 404);
+        }
+        return response()->json($animal, 200);
+    }
+
+    public function uploadImage(Request $request)
     {
         $request->validate([
             'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
-        if ( $request->hasFile($image) ) {
+        if ($request->hasFile('image')) {
             $image = $request->file('image');
-            $detinationPath = 'images/';
+            $destinationPath = public_path('image');
             $imageName = time() . '.' . $image->getClientOriginalExtension();
-            $uploadSuccess = $request->file($image)->move($detinationPath, $imageName);
-            
+            $image->move($destinationPath, $imageName);
 
+            return response()->json(['message' => 'Imagen Cargada Correctamente', 'image_name' => $imageName], 200);
         }
 
-        // // Guardar la imagen
-        // $image = $request->file('image');
-        // $imageName = time() . '.' . $image->getClientOriginalExtension();
-        // $image->move(public_path('image'), $imageName);
-
-        // return response()->json(['message' => 'Image uploaded successfully', 'image_name' => $imageName], 200);
+        return response()->json(['error' => 'No se pudo cargar la imagen'], 400);
     }
+
 
     public function showAllImages()
     {
@@ -72,7 +75,7 @@ class AnimalController extends Controller
         $images = File::files($imageDirectory);
 
         if (empty($images)) {
-            return response()->json(['error' => 'No images found'], 404);
+            return response()->json(['error' => 'imagenes no encontradas'], 404);
         }
 
         $imageData = [];
@@ -80,7 +83,7 @@ class AnimalController extends Controller
         foreach ($images as $image) {
             $imageData[] = [
                 'path' => $image->getRelativePathname(),
-                'url' => url('image/' . $image->getFilename())
+                'url' => $image->getFilename(),
             ];
         }
 
@@ -125,9 +128,9 @@ class AnimalController extends Controller
     {
         $animal = Animal::find($id_animal);
         if (!$animal) {
-            return response()->json(["error"=> "Animal no encontrado"],404);
+            return response()->json(["error" => "Animal no encontrado"], 404);
         }
         $animal->delete();
-        return response()->json(["message"=> "Animal eliminado"],200);
+        return response()->json(["message" => "Animal eliminado"], 200);
     }
 }
