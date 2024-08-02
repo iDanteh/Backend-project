@@ -12,12 +12,12 @@ class User extends Model
     protected $fillable = [
         'nombre',
         'correo',
-        'contraseña',
+        'contrasena',
         'urlimg',
     ];
 
     public function getAuthPassword()
     {
-        return $this->contraseña;
+        return $this->contrasena;
     }
 }

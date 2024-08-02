@@ -26,11 +26,13 @@ Route::get('/showAllImages', [AnimalController::class, 'showAllImages']);
 
 
 Route::get('/allUsers', [UserController::class, 'index']);
-Route::get('/user/{usuario}', [UserController::class, 'show']);
+Route::put('/actualizarUsuario/{usuario}', [UserController::class, 'update']);
+Route::delete('/eliminarUsuario/{usuario}', [UserController::class, 'destroy']);
 Route::post('/newUser', [UserController::class, 'store']);
+Route::get('/user/{usuario}', [UserController::class, 'show']);
 Route::post('/login', [UserController::class, 'login']);
-Route::delete('/delete/{id}', [UserController::class, 'destroy']);
-Route::put('update/{id}', [UserController::class, 'update']);
+Route::post('/uploadImageUser', [UserController::class, 'uploadImageUser']);
+Route::get('/showAllImagesUser', [UserController::class, 'showAllImagesUser']);
 
 
 

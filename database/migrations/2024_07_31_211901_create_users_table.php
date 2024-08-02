@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nombre');
             $table->string('correo');
-            $table->string('contraseña');
+            $table->string('contrasena');
             $table->string('urlimg');
             $table->timestamps();
         });
