@@ -35,14 +35,12 @@ class UserController extends Controller
             'nombre' => 'required|string',
             'correo' => 'required|string',
             'contraseña' => 'required|string',
-            'urlimg' => 'required|string',
         ]);
 
         $user = User::create([
             'nombre' => $request->input('nombre'),
             'correo' => $request->input('correo'),
-            'contraseña' => $request->input('contraseña'), // Almacenar en texto plano
-            'urlimg' => $request->input('urlimg'),
+            'contraseña' => $request->input('contraseña'),
         ]);
 
         return response()->json($user, 201);
@@ -83,14 +81,41 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        // Validar los datos de entrada
+        $request->validate([
+            'nombre' => 'nullable|string',
+            'correo' => 'nullable|string',
+            'contraseña' => 'nullable|string',
+        ]);
+
+        // Buscar el usuario por ID
+        $user = User::find($id);
+
+        if (!$user) {
+            return response()->json(['message' => 'Usuario no encontrado'], 404);
+        }
+
+        // Actualizar los datos del usuario
+        $user->nombre = $request->input('nombre', $user->nombre);
+        $user->correo = $request->input('correo', $user->correo);
+        $user->contraseña = $request->input('contraseña', $user->contraseña);
+
+        // Guardar los cambios
+        $user->save();
+
+        return response()->json($user, 200);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+
+    public function destroy($id)
     {
         //
+        $user = User::find($id);
+        if (!$user) {
+            return response()->json(['message' => 'Usuario no encontrado'], 404);
+        }
+
+        $user->delete();
+        return response()->json(['message' => 'Usuario eliminado correctamente'], 200);
     }
 }
